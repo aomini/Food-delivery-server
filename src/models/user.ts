@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 
 // Base User Schema
 const userSchema = new mongoose.Schema({
@@ -57,8 +57,13 @@ const adminSchema = new mongoose.Schema({
 });
 
 export const Customer = mongoose.model("Customer", customerSchema);
+export type Customer = InferSchemaType<typeof customerSchema>;
+
 export const DeliveryPartner = mongoose.model(
   "Delivery_Partner",
   deliveryPartnerSchema
 );
+export type DeliveryPartner = InferSchemaType<typeof deliveryPartnerSchema>;
+
 export const Admin = mongoose.model("Admin", adminSchema);
+export type Admin = InferSchemaType<typeof adminSchema>;

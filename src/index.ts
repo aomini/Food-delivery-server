@@ -1,19 +1,19 @@
 import "dotenv/config";
 
 import Fastify from "fastify";
-import { MongoClient } from "mongodb";
 import connectDB from "./config/database/connect.js";
+import { admin, buildAdminRouter } from "./config/setup.js";
+import { registerRoutes } from "./routes/index.js";
 
 const fastify = Fastify({
   logger: true,
 });
 
-fastify.get("/", async (request, reply) => {
-  return { hello: "world" };
-});
+registerRoutes(fastify);
 
 const start = async () => {
   try {
+    await buildAdminRouter(fastify);
     if (process.env.MONGO_URI) {
       await connectDB(process.env.MONGO_URI);
     } else {
@@ -21,8 +21,11 @@ const start = async () => {
     }
     const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
     await fastify.listen({ port, host: "0.0.0.0" });
-    console.log("Blinkit started on https://localhost:", port);
+    console.log(
+      `Server started on https://localhost:${port}/${admin.options.rootPath}`
+    );
   } catch (err: unknown) {
+    console.log(err);
     fastify.log.error(err);
     process.exit();
   }
