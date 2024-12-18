@@ -7,20 +7,20 @@ import { Auth } from "../middleware/auth.js";
 export type User = Customer | DeliveryPartner;
 export type Token = {
   userId: string;
-  role: "customer" | "delivery_partner";
+  role: "delivery_partner" | "customer";
 };
 
 const generateAuthToken = (user: Document<any, any, User> & User) => {
   const accessToken = jwt.sign(
     { userId: user._id, role: user.role },
     process.env.ACCESS_TOKEN_SECRET || "",
-    { expiresIn: "60" }
+    { expiresIn: "1d" }
   );
 
   const refreshToken = jwt.sign(
     { userId: user._id, role: user.role },
     process.env.REFRESH_TOKEN_SECRET || "",
-    { expiresIn: "60" }
+    { expiresIn: "1d" }
   );
   return { accessToken, refreshToken };
 };
@@ -119,6 +119,7 @@ export const refreshToken = async (
       refreshToken: newRefreshToken,
     });
   } catch (err: unknown) {
+    console.log(err);
     return res.status(403).send({ message: "Invalid refresh token" });
   }
 };

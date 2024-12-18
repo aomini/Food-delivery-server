@@ -59,6 +59,11 @@ const adminSchema = new mongoose.Schema({
 export const Customer = mongoose.model("Customer", customerSchema);
 export type Customer = InferSchemaType<typeof customerSchema>;
 
+deliveryPartnerSchema.methods.toJSON = function () {
+  let userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
 export const DeliveryPartner = mongoose.model(
   "Delivery_Partner",
   deliveryPartnerSchema
