@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import { DeliveryPartner } from "./user.js";
 
 const branchSchema = new mongoose.Schema({
   name: { type: String, required: true },
   location: {
     lat: String,
+    lng: String,
   },
   Address: { type: String },
   DeliveryPartner: [
@@ -15,3 +16,4 @@ const branchSchema = new mongoose.Schema({
   ],
 });
 export const Branch = mongoose.model("Branch", branchSchema);
+export type Branch = InferSchemaType<typeof branchSchema>;

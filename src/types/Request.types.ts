@@ -4,10 +4,5 @@ import { FastifyReply, FastifyRequest } from "fastify";
 export type Controller<
   Req extends FastifyRequest = FastifyRequest,
   Res = FastifyReply,
-  ReturnType = void
-> = (
-  req: Req,
-  res: Res
-) => ReturnType extends void
-  ? Promise<void> | void
-  : Promise<ReturnType> | ReturnType;
+  ReturnType = Promise<void>
+> = (req: Req, res: Res) => ReturnType;

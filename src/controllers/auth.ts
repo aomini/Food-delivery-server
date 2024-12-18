@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 import { Admin, Customer, DeliveryPartner } from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -6,7 +6,7 @@ import { Auth } from "../middleware/auth.js";
 
 export type User = Customer | DeliveryPartner;
 export type Token = {
-  userId: string;
+  userId: Types.ObjectId;
   role: "delivery_partner" | "customer";
 };
 

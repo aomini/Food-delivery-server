@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { InferSchemaType, mongo } from "mongoose";
 import Counter from "./counter.js";
 
 const orderSchema = new mongoose.Schema({
@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema({
   deliveryPartner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Delivery_Partner",
-    required: true,
+    // required: true,
   },
   branch: {
     type: mongoose.Schema.Types.ObjectId,
@@ -36,7 +36,17 @@ const orderSchema = new mongoose.Schema({
       count: { type: Number, required: true },
     },
   ],
+  deliveryPersonLocation: {
+    lat: { type: Number },
+    lng: { type: Number },
+    address: { type: String },
+  },
   deliveryLocation: {
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true },
+    address: { type: String },
+  },
+  pickupLocation: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
     address: { type: String },
@@ -69,4 +79,5 @@ orderSchema.pre("save", async function (next) {
 });
 
 const Order = mongoose.model("Order", orderSchema);
+export type Order = InferSchemaType<typeof orderSchema>;
 export default Order;
