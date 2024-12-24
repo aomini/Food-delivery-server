@@ -7,7 +7,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon --import ./ts-node.register.mjs ./src/index.ts"
+    "start": "nodemon --import ./ts-node.register.mjs ./src/index.ts",
+    "seeder": "nodemon --import ./ts-node.register.mjs ./src/database/seeder.ts"
   },
   "dependencies": {
     "@adminjs/fastify": "^4.1.3",
